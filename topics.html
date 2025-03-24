@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Topics - Lambda Maths</title>
+    <script type="text/javascript" async
+            src="https://polyfill.io/v3/polyfill.min.js?features=es6">
+    </script>
+    <script type="text/javascript" async
+            id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="nav">
+        <a href="index.html">Home</a>
+        <a href="topics.html">Topics</a>
+        <a href="contact.html">Contact</a>
+    </div>
+    <div class="container">
+        <h1>Select a Topic</h1>
+        <label for="topic">Choose a topic:</label>
+        <select id="topic">
+            <option value="tangents">Tangents</option>
+            <option value="polynomials">Polynomials</option>
+            <option value="fractions">Fractions</option>
+            <option value="trigonometry">Trigonometry</option>
+        </select>
+        <button class="btn" onclick="generateQuestion()">Generate Question</button>
+        <p id="questionOutput"></p>
+        <button class="btn" onclick="generateQuestion()">Generate Question</button>
+        <button class="btn" id="showAnswer" onclick="showAnswer()" style="display: none;">Show Answer</button>
+        <p id="answerOutput"></p>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

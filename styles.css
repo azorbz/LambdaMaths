@@ -1,0 +1,81 @@
+﻿body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #F3E8FF; /* Soft purple background */
+    color: #4A148C; /* Deep purple text */
+    text-align: center;
+}
+
+.nav {
+    background-color: #6A1B9A;
+    padding: 15px;
+    text-align: center;
+}
+
+    .nav a {
+        color: white;
+        text-decoration: none;
+        margin: 0 15px;
+        font-size: 1.2em;
+    }
+
+        .nav a:hover {
+            text-decoration: underline;
+        }
+
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    font-size: 2.5em;
+    color: #6A1B9A;
+}
+
+p {
+    font-size: 1.2em;
+}
+
+.btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 1.2em;
+    color: white;
+    background-color: #9C27B0;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+    .btn:hover {
+        background-color: #7B1FA2;
+    }
+
+footer {
+    margin-top: 50px;
+    font-size: 0.9em;
+    color: #6A1B9A;
+}
+
+select {
+    font-size: 1.2em;
+    padding: 8px;
+    margin-top: 10px;
+    border-radius: 8px;
+    border: 1px solid #9C27B0;
+}
+
+#questionOutput {
+    font-size: 1.4em;
+    margin-top: 20px;
+    color: #6A1B9A;
+    font-weight: bold;
+}
