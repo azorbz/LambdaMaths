@@ -17,6 +17,10 @@ const questionTemplates = {
         { data: standardToExponential() },
         { data: multiplyComplexNumbers() },
         { data: dividingComplexNumbers() }
+    ],
+    firstOrderODEs: [
+        { data: typeOneFirstOrderODE },
+        { data: typeTwoFirstOrderODE }
     ]
 };
 
@@ -435,6 +439,120 @@ function typeOneFirstOrderODE() {
     return [question, answer];
 };
 
+function typeTwoFirstOrderODE() {
+    const variable = ["x", "y", "z"][Math.floor(Math.random() * 3)];
+    const unsigned_m = Math.floor(Math.random() * 12) + 1;
+    const sign_m = [-1, 1][Math.floor(Math.random() * 2)];
+    const unsigned_a = Math.floor(Math.random() * 12) + 1;
+    const sign_a = [-1, 1][Math.floor(Math.random() * 2)];
+    const unsigned_b = Math.floor(Math.random() * 12) + 1;
+    const sign_b = [-1, 1][Math.floor(Math.random() * 2)];
+    const m = unsigned_m * sign_m;
+    const a = unsigned_a * sign_a;
+    const b = unsigned_b * sign_b;
+    var formatted_m;
+    if (sign_m == 1) {
+        if (unsigned_m == 1) {
+            formatted_m = "+";
+        } else {
+            formatted_m = "+" + unsigned_m;
+        };
+    } else {
+        if (unsigned_m == 1) {
+            formatted_m = "-";
+        } else {
+            formatted_m = m;
+        };
+    };
+    var formatted_a;
+    if (sign_a == -1) {
+        formatted_a = -1 * unsigned_a + "t";
+    } else {
+        formatted_a = "+ " + unsigned_a + "t";
+    };
+    var final_power;
+    if (formatted_m == "+") {
+        final_power = "-";
+    } else if (formatted_m == "+") {
+        final_power = "-";
+    } else {
+        final_power = -m;
+    };
+    const orderOneNumerator = (b * m) - a;
+    const gcd_orderOneGCD = euclidean_gcd(orderOneNumerator, m * m);
+    var formatted_orderOne;
+    if (orderOneNumerator == 0) {
+        formatted_orderOne = "";
+    } else if (gcd_orderOneGCD == m * m) {
+        formatted_orderOne = orderOneNumerator / (m * m);
+    } else {
+        if (orderOneNumerator < 0) {
+            formatted_orderOne = "-\\frac\{" + Math.abs(orderOneNumerator) / gcd_orderOneGCD + "\}\{" + (m * m) / gcd_orderOneGCD + "\}";
+        } else {
+            formatted_orderOne = "\\frac\{" + orderOneNumerator / gcd_orderOneGCD + "\}\{" + (m * m) / gcd_orderOneGCD + "\}";
+        };
+    };
+    const gcd_t = euclidean_gcd(a,m)
+    var orderTTerm = a / m;
+    if (Number.isInteger(orderTTerm)) {
+        if (orderTTerm < 0) {
+            if (orderTTerm == -1) {
+                orderTTerm = "-t";
+            } else {
+                orderTTerm = "-" + Math.abs(orderTTerm).toString() + "t";
+            };
+        }
+        else {
+            if (orderOneNumerator == 0) {
+                if (orderTTerm == 1) {
+                    orderTTerm = "t";
+                } else {
+                    orderTTerm = orderTTerm.toString() + "t";
+                };
+            } else {
+                if (orderTTerm == 1) {
+                    orderTTerm = "+ t";
+                } else {
+                    orderTTerm = "+" + orderTTerm.toString() + "t";
+                };
+            };
+        }
+    } else {
+        if (orderTTerm > 0) {
+            if (orderOneNumerator == 0) {
+                orderTTerm = "\\frac\{" + Math.abs(a / gcd_t) + "\}\{" + Math.abs(m / gcd_t) + "\}t";
+            } else {
+                orderTTerm = "+ \\frac\{" + Math.abs(a / gcd_t) + "\}\{" + Math.abs(m / gcd_t) + "\}t";
+            }
+        } else {
+            orderTTerm = "- \\frac\{" + Math.abs(a / gcd_t) + "\}\{" + Math.abs(m / gcd_t) + "\}t";
+        };
+    }
+    if (m == 1) {
+        final_power = "-";
+    } else if (m == -1) {
+        final_power = "+";
+    } else {
+        final_power = -m;
+    };
+    var formatted_a;
+    if (a == 1) {
+        formatted_a = "";
+    } else if (a == -1) {
+        formatted_a = "-";
+    } else {
+        formatted_a = a;
+    };
+    var question;
+    if (b < 0) {
+        question = "Find the general solution to the first-order ODE: \\(\\frac\{d" + variable + "\}\{dt\} " + formatted_m + variable + " = " + formatted_a + "t" + b + "\\)";
+    } else {
+        question = "Find the general solution to the first-order ODE: \\(\\frac\{d" + variable + "\}\{dt\} " + formatted_m + variable + " = " + formatted_a + "t + " + b + "\\)";
+    };
+    const answer = "\\(" + variable + "(t) = " + formatted_orderOne + orderTTerm + "+ c e^\{" + final_power + "t\}\\), \\(c \\in \\mathbb\{R\}\\)";
+    return [question, answer];
+};
+
 
 let currentAnswer = "";
 
@@ -454,7 +572,7 @@ function generateQuestion() {
         const randomIndex = Math.floor(Math.random() * complexFunctions.length);
         selectedQuestion = complexFunctions[randomIndex]();
     } else if (topic == "firstOrderODEs") {
-        const firstOrderFunctions = [typeOneFirstOrderODE];
+        const firstOrderFunctions = [typeOneFirstOrderODE, typeTwoFirstOrderODE];
         const randomIndex = Math.floor(Math.random() * firstOrderFunctions.length);
         selectedQuestion = firstOrderFunctions[randomIndex]();
     };
@@ -475,4 +593,49 @@ function generateQuestion() {
 function showAnswer() {
     document.getElementById("answerOutput").innerHTML = currentAnswer;
     MathJax.typesetPromise();
+};
+
+function downloadQuestionAsPDF() {
+    const questionElement = document.getElementById("questionOutput");
+    const answerElement = document.getElementById("answerOutput");
+
+    // Hide content while processing
+    questionElement.style.visibility = "hidden";
+    answerElement.style.visibility = "hidden";
+
+    MathJax.typesetPromise().then(() => {
+        setTimeout(() => {
+            // Make elements visible again after MathJax rendering
+            questionElement.style.visibility = "visible";
+            answerElement.style.visibility = "visible";
+
+            // Capture question
+            html2canvas(questionElement, { scale: 3, useCORS: true }).then((questionCanvas) => {
+                html2canvas(answerElement, { scale: 3, useCORS: true }).then((answerCanvas) => {
+
+                    // Create PDF
+                    const { jsPDF } = window.jspdf;
+                    const doc = new jsPDF();
+
+                    // Convert elements to images
+                    const questionImg = questionCanvas.toDataURL("image/png");
+                    const answerImg = answerCanvas.toDataURL("image/png");
+
+                    // Add content to PDF
+                    doc.setFont("helvetica", "bold");
+                    doc.setFontSize(18);
+                    doc.text("Generated Question", 10, 10);
+
+                    doc.addImage(questionImg, "PNG", 10, 20, 180, 0);
+
+                    doc.setFont("helvetica", "bold");
+                    doc.text("Answer:", 10, 120);
+                    doc.addImage(answerImg, "PNG", 10, 130, 180, 0);
+
+                    // Save PDF
+                    doc.save("Generated_Question.pdf");
+                });
+            });
+        }, 500); // Small delay ensures MathJax is fully processed
+    });
 }
