@@ -21,6 +21,9 @@ const questionTemplates = {
     firstOrderODEs: [
         { data: typeOneFirstOrderODE },
         { data: typeTwoFirstOrderODE }
+    ],
+    partialFractions: [
+        { data: partialFractionsOne }
     ]
 };
 
@@ -553,6 +556,391 @@ function typeTwoFirstOrderODE() {
     return [question, answer];
 };
 
+// Partial Fractions
+
+function partialFractionsOne() {
+    const unsigned_m = Math.floor(Math.random() * 12);
+    const sign_m = [-1, 1][Math.floor(Math.random() * 2)];
+    const m = sign_m * unsigned_m;
+    const unsigned_c = Math.floor(Math.random() * 12 + 1);
+    const sign_c = [-1, 1][Math.floor(Math.random() * 2)];
+    const c = sign_c * unsigned_c;
+    var formatted_mx_c;
+    if (unsigned_m == 0) {
+        formatted_mx_c = c;
+    } else if (m == 1) {
+        if (c < 0) {
+            formatted_mx_c = "x" + c;
+        } else {
+            formatted_mx_c = "x + " + c;
+        };
+    } else if (m == -1) {
+        if (c < 0) {
+            formatted_mx_c = "-x" + c;
+        } else {
+            formatted_mx_c = "-x + " + c;
+        };
+    } else {
+        if (c < 0) {
+            formatted_mx_c = m + "x" + c;
+        } else {
+            formatted_mx_c = m + "x + " + c;
+        };
+    };
+    var unsigned_a;
+    var sign_a;
+    var unsigned_b;
+    var sign_b;
+    var a = 0;
+    var b = 0;
+    while (a == b) {
+        unsigned_a = Math.floor(Math.random() * 12 + 1);
+        sign_a = [-1, 1][Math.floor(Math.random() * 2)];
+        unsigned_b = Math.floor(Math.random() * 12 + 1);
+        sign_b = [-1, 1][Math.floor(Math.random() * 2)];
+        a = sign_a * unsigned_a;
+        b = sign_b * unsigned_b;
+    }
+    var formatted_polynomial_denom;
+    if (a + b == 0) {
+        if (a * b > 0) {
+            formatted_polynomial_denom = "x^\{2\} + " + (a * b);
+        } else {
+            formatted_polynomial_denom = "x^\{2\}" + (a * b);
+        };
+    } else if (a + b == 1) {
+        if (a * b > 0) {
+            formatted_polynomial_denom = "x^\{2\} + x + " + (a * b);
+        } else {
+            formatted_polynomial_denom = "x^\{2\} + x " + (a * b);
+        };
+    } else if (a + b == -1) {
+        if (a * b > 0) {
+            formatted_polynomial_denom = "x^\{2\} - x + " + (a * b);
+        } else {
+            formatted_polynomial_denom = "x^\{2\} - x " + (a * b);
+        };
+    } else if (a + b < 0) {
+        if (a * b > 0) {
+            formatted_polynomial_denom = "x^\{2\} " + (a + b) + " x + " + (a * b);
+        } else {
+            formatted_polynomial_denom = "x^\{2\} " + (a + b) + " x " + (a * b);
+        };
+    } else {
+        if (a * b > 0) {
+            formatted_polynomial_denom = "x^\{2\} + " + (a + b) + " x + " + (a * b);
+        } else {
+            formatted_polynomial_denom = "x^\{2\} + " + (a + b) + " x " + (a * b);
+        };
+    };
+    const fractionANum_Unsimplified = a * m - c;
+    const fractionADenom_Unsimplified = a - b;
+    const gcd_A = euclidean_gcd(fractionANum_Unsimplified, fractionADenom_Unsimplified);
+    const fractionANum_Simplified = Math.sign(a - b) * fractionANum_Unsimplified / gcd_A;
+    const fractionADenom_Simplified = Math.abs(fractionADenom_Unsimplified / gcd_A);
+    const fractionBNum_Unsimplifed = b * m - c;
+    const fractionBDenom_Unsimplified = b - a;
+    const gcd_B = euclidean_gcd(fractionBNum_Unsimplifed, fractionBDenom_Unsimplified);
+    const fractionBNum_Simplified = Math.sign(b - a) * fractionBNum_Unsimplifed / gcd_B;
+    const fractionBDenom_Simplified = Math.abs(fractionBDenom_Unsimplified / gcd_B);
+    var formatted_a_fraction;
+    var formatted_b_fraction;
+    if (fractionANum_Simplified == 0) {
+        formatted_a_fraction = "";
+        if (fractionBNum_Simplified == 0) {
+            formatted_b_fraction = "0";
+        } else {
+            if (fractionBDenom_Simplified == 1) {
+                if (b < 0) {
+                    formatted_b_fraction = "\\frac\{" + fractionBNum_Simplified + "\}\{x" + b + "\}";
+                } else {
+                    formatted_b_fraction = "\\frac\{" + fractionBNum_Simplified + "\}\{x + " + b + "\}";
+                };
+            } else {
+                if (b < 0) {
+                    formatted_b_fraction = "\\frac\{" + fractionBNum_Simplified + "\}\{" + fractionBDenom_Simplified + "(x" + b + ")\}";
+                } else {
+                    formatted_b_fraction = "\\frac\{" + fractionBNum_Simplified + "\}\{" + fractionBDenom_Simplified + "(x + " + b + ")\}";
+                };
+            };
+        };
+    } else {
+        if (fractionADenom_Simplified == 1) {
+            if (a < 0) {
+                formatted_a_fraction = "\\frac\{" + fractionANum_Simplified + "\}\{x" + a + "\}";
+            } else {
+                formatted_a_fraction = "\\frac\{" + fractionANum_Simplified + "\}\{x + " + a + "\}";
+            };
+            if (fractionBNum_Simplified > 0) {
+                if (fractionBDenom_Simplified == 1) {
+                    if (b < 0) {
+                        formatted_b_fraction = "+ \\frac\{" + fractionBNum_Simplified + "\}\{x" + b + "\}";
+                    } else {
+                        formatted_b_fraction = "+ \\frac\{" + fractionBNum_Simplified + "\}\{x + " + b + "\}";
+                    };
+                } else {
+                    if (b < 0) {
+                        formatted_b_fraction = "+ \\frac\{" + fractionBNum_Simplified + "\}\{" + fractionBDenom_Simplified + "(x" + b + ")\}";
+                    } else {
+                        formatted_b_fraction = "+ \\frac\{" + fractionBNum_Simplified + "\}\{" + fractionBDenom_Simplified + "(x + " + b + ")\}";
+                    };
+                };
+            } else {
+                if (fractionBDenom_Simplified == 1) {
+                    if (b < 0) {
+                        formatted_b_fraction = "- \\frac\{" + -1 * fractionBNum_Simplified + "\}\{x" + b + "\}";
+                    } else {
+                        formatted_b_fraction = "- \\frac\{" + -1 * fractionBNum_Simplified + "\}\{x + " + b + "\}";
+                    };
+                } else {
+                    if (b < 0) {
+                        formatted_b_fraction = "- \\frac\{" + -1 * fractionBNum_Simplified + "\}\{" + fractionBDenom_Simplified + "(x" + b + ")\}";
+                    } else {
+                        formatted_b_fraction = "- \\frac\{" + -1 * fractionBNum_Simplified + "\}\{" + fractionBDenom_Simplified + "(x + " + b + ")\}";
+                    };
+                };
+            };
+        } else {
+            if (a < 0) {
+                formatted_a_fraction = "\\frac\{" + fractionANum_Simplified + "\}\{" + fractionBDenom_Simplified + "(x" + a + ")\}";
+            } else {
+                formatted_a_fraction = "\\frac\{" + fractionANum_Simplified + "\}\{" + fractionBDenom_Simplified + "(x + " + a + ")\}";
+            };
+            if (fractionBNum_Simplified > 0) {
+                if (fractionBDenom_Simplified == 1) {
+                    if (b < 0) {
+                        formatted_b_fraction = "+ \\frac\{" + fractionBNum_Simplified + "\}\{x" + b + "\}";
+                    } else {
+                        formatted_b_fraction = "+ \\frac\{" + fractionBNum_Simplified + "\}\{x + " + b + "\}";
+                    };
+                } else {
+                    if (b < 0) {
+                        formatted_b_fraction = "+ \\frac\{" + fractionBNum_Simplified + "\}\{" + fractionBDenom_Simplified + "(x" + b + ")\}";
+                    } else {
+                        formatted_b_fraction = "+ \\frac\{" + fractionBNum_Simplified + "\}\{" + fractionBDenom_Simplified + "(x + " + b + ")\}";
+                    };
+                };
+            } else {
+                if (fractionBDenom_Simplified == 1) {
+                    if (b < 0) {
+                        formatted_b_fraction = "- \\frac\{" + -1 * fractionBNum_Simplified + "\}\{x" + b + "\}";
+                    } else {
+                        formatted_b_fraction = "- \\frac\{" + -1 * fractionBNum_Simplified + "\}\{x + " + b + "\}";
+                    };
+                } else {
+                    if (b < 0) {
+                        formatted_b_fraction = "- \\frac\{" + -1 * fractionBNum_Simplified + "\}\{" + fractionBDenom_Simplified + "(x" + b + ")\}";
+                    } else {
+                        formatted_b_fraction = "- \\frac\{" + -1 * fractionBNum_Simplified + "\}\{" + fractionBDenom_Simplified + "(x + " + b + ")\}";
+                    };
+                };
+            }
+        }
+    };
+
+    const question = "Separate \\(\\frac\{" + formatted_mx_c + "\}\{" + formatted_polynomial_denom + "\}\\) into partial fractions";
+    const answer = "\\(" + formatted_a_fraction + formatted_b_fraction + "\\)";
+    return [question, answer];
+};
+
+function indefiniteIntegralPartialFractions() {
+    const unsigned_m = Math.floor(Math.random() * 12);
+    const sign_m = [-1, 1][Math.floor(Math.random() * 2)];
+    const m = sign_m * unsigned_m;
+    const unsigned_c = Math.floor(Math.random() * 12 + 1);
+    const sign_c = [-1, 1][Math.floor(Math.random() * 2)];
+    const c = sign_c * unsigned_c;
+    var formatted_mx_c;
+    if (unsigned_m == 0) {
+        formatted_mx_c = c;
+    } else if (m == 1) {
+        if (c < 0) {
+            formatted_mx_c = "x" + c;
+        } else {
+            formatted_mx_c = "x + " + c;
+        };
+    } else if (m == -1) {
+        if (c < 0) {
+            formatted_mx_c = "-x" + c;
+        } else {
+            formatted_mx_c = "-x + " + c;
+        };
+    } else {
+        if (c < 0) {
+            formatted_mx_c = m + "x" + c;
+        } else {
+            formatted_mx_c = m + "x + " + c;
+        };
+    };
+    var unsigned_a;
+    var sign_a;
+    var unsigned_b;
+    var sign_b;
+    var a = 0;
+    var b = 0;
+    while (a == b) {
+        unsigned_a = Math.floor(Math.random() * 12 + 1);
+        sign_a = [-1, 1][Math.floor(Math.random() * 2)];
+        unsigned_b = Math.floor(Math.random() * 12 + 1);
+        sign_b = [-1, 1][Math.floor(Math.random() * 2)];
+        a = sign_a * unsigned_a;
+        b = sign_b * unsigned_b;
+    }
+    var formatted_polynomial_denom;
+    if (a + b == 0) {
+        if (a * b > 0) {
+            formatted_polynomial_denom = "x^\{2\} + " + (a * b);
+        } else {
+            formatted_polynomial_denom = "x^\{2\}" + (a * b);
+        };
+    } else if (a + b == 1) {
+        if (a * b > 0) {
+            formatted_polynomial_denom = "x^\{2\} + x + " + (a * b);
+        } else {
+            formatted_polynomial_denom = "x^\{2\} + x " + (a * b);
+        };
+    } else if (a + b == -1) {
+        if (a * b > 0) {
+            formatted_polynomial_denom = "x^\{2\} - x + " + (a * b);
+        } else {
+            formatted_polynomial_denom = "x^\{2\} - x " + (a * b);
+        };
+    } else if (a + b < 0) {
+        if (a * b > 0) {
+            formatted_polynomial_denom = "x^\{2\} " + (a + b) + " x + " + (a * b);
+        } else {
+            formatted_polynomial_denom = "x^\{2\} " + (a + b) + " x " + (a * b);
+        };
+    } else {
+        if (a * b > 0) {
+            formatted_polynomial_denom = "x^\{2\} + " + (a + b) + " x + " + (a * b);
+        } else {
+            formatted_polynomial_denom = "x^\{2\} + " + (a + b) + " x " + (a * b);
+        };
+    };
+    const fractionANum_Unsimplified = a * m - c;
+    const fractionADenom_Unsimplified = a - b;
+    const gcd_A = euclidean_gcd(fractionANum_Unsimplified, fractionADenom_Unsimplified);
+    const fractionANum_Simplified = Math.sign(a - b) * fractionANum_Unsimplified / gcd_A;
+    const fractionADenom_Simplified = Math.abs(fractionADenom_Unsimplified / gcd_A);
+    const fractionBNum_Unsimplifed = b * m - c;
+    const fractionBDenom_Unsimplified = b - a;
+    const gcd_B = euclidean_gcd(fractionBNum_Unsimplifed, fractionBDenom_Unsimplified);
+    const fractionBNum_Simplified = Math.sign(b - a) * fractionBNum_Unsimplifed / gcd_B;
+    const fractionBDenom_Simplified = Math.abs(fractionBDenom_Unsimplified / gcd_B);
+    var term_1;
+    var term_2;
+    if (fractionANum_Simplified == 0) {
+        term_1 = "";
+        if (fractionBNum_Simplified == 0) {
+            term_2 = "0";
+        } else if (fractionBDenom_Simplified == 1) {
+            if (b < 0) {
+                term_2 = fractionBNum_Simplified + "\\ln\{|x" + b + "|\}";
+            } else {
+                term_2 = fractionBNum_Simplified + "\\ln\{|x + " + b + "|\}";
+            };
+        } else {
+            if (fractionBNum_Simplified < 0) {
+                if (b < 0) {
+                    term_2 = "- \\frac\{" + Math.abs(fractionBNum_Simplified) + "\}\{" + fractionBDenom_Simplified + "\}\\ln\{|x" + b + "|\}";
+                } else {
+                    term_2 = "- \\frac\{" + Math.abs(fractionBNum_Simplified) + "\}\{" + fractionBDenom_Simplified + "\}\\ln\{|x + " + b + "|\}";
+                };
+            } else {
+                if (b < 0) {
+                    term_2 = "\\frac\{" + Math.abs(fractionBNum_Simplified) + "\}\{" + fractionBDenom_Simplified + "\}\\ln\{|x" + b + "|\}";
+                } else {
+                    term_2 = "\\frac\{" + fractionBNum_Simplified + "\}\{" + fractionBDenom_Simplified + "\}\\ln\{|x + " + b + "|\}";
+                };
+            };
+        };
+    } else if (fractionADenom_Simplified == 1) {
+        if (fractionANum_Simplified == 1) {
+            if (a < 0) {
+                term_1 = "\\ln\{|x" + a + "|\}";
+            } else {
+                term_1 = "\\ln\{|x + " + a + "|\}";
+            };
+        } else if (fractionANum_Simplified == -1) {
+            if (a < 0) {
+                term_1 = "-\\ln\{|x" + a + "|\}";
+            } else {
+                term_1 = "-\\ln\{|x + " + a + "|\}";
+            };
+        } else {
+            if (a < 0) {
+                term_1 = fractionANum_Simplified + "\\ln\{|x" + a + "|\}";
+            } else {
+                term_1 = fractionANum_Simplified + "\\ln\{|x + " + a + "|\}";
+            }
+        };
+        if (fractionBNum_Simplified == 0) {
+            term_2 = "";
+        } else if (fractionBDenom_Simplified == 1) {
+            if (fractionBNum_Simplified < 0) {
+                if (b < 0) {
+                    term_2 = fractionBNum_Simplified + "\\ln\{|x" + b + "|\}";
+                } else {
+                    term_2 = fractionBNum_Simplified + "\\ln\{|x + " + b + "|\}";
+                };
+            } else {
+                if (b < 0) {
+                    term_2 = "+" + fractionBNum_Simplified + "\\ln\{|x" + b + "|\}";
+                } else {
+                    term_2 = "+ " + fractionBNum_Simplified + "\\ln\{|x + " + b + "|\}";
+                };
+            };
+        } else {
+            if (fractionBNum_Simplified < 0) {
+                if (b < 0) {
+                    term_2 = "- \\frac\{" + Math.abs(fractionBNum_Simplified) + "\}\{" + fractionBDenom_Simplified + "\}\\ln\{|x" + b + "|\}";
+                } else {
+                    term_2 = "- \\frac\{" + Math.abs(fractionBNum_Simplified) + "\}\{" + fractionBDenom_Simplified + "\}\\ln\{|x + " + b + "|\}";
+                };
+            } else {
+                if (b < 0) {
+                    term_2 = "+ \\frac\{" + Math.abs(fractionBNum_Simplified) + "\}\{" + fractionBDenom_Simplified + "\}\\ln\{|x" + b + "|\}";
+                } else {
+                    term_2 = "+ \\frac\{" + fractionBNum_Simplified + "\}\{" + fractionBDenom_Simplified + "\}\\ln\{|x + " + b + "|\}";
+                };
+            };
+        };
+    } else {
+        if (a < 0) {
+            term_1 = "\\frac\{" + fractionANum_Simplified + "\}\{" + fractionADenom_Simplified + "\}\\ln\{| x" + a + " |\} ";
+        } else {
+            term_1 = "\\frac\{" + fractionANum_Simplified + "\}\{" + fractionADenom_Simplified + "\}\\ln\{|x + " + a + "|\}";
+        };
+        if (fractionBNum_Simplified == 0) {
+            term_2 = "";
+        } else if (fractionBDenom_Simplified == 1) {
+            if (b < 0) {
+                term_2 = fractionBNum_Simplified + "\\ln\{|x" + b + "|\}";
+            } else {
+                term_2 = " + " + fractionBNum_Simplified + "\\ln\{|x + " + b + "|\}";
+            };
+        } else {
+            if (fractionBNum_Simplified < 0) {
+                if (b < 0) {
+                    term_2 = "- \\frac\{" + Math.abs(fractionBNum_Simplified) + "\}\{" + fractionBDenom_Simplified + "\}\\ln\{|x" + b + "|\}";
+                } else {
+                    term_2 = "- \\frac\{" + Math.abs(fractionBNum_Simplified) + "\}\{" + fractionBDenom_Simplified + "\}\\ln\{|x + " + b + "|\}";
+                };
+            } else {
+                if (b < 0) {
+                    term_2 = "+ \\frac\{" + Math.abs(fractionBNum_Simplified) + "\}\{" + fractionBDenom_Simplified + "\}\\ln\{|x" + b + "|\}";
+                } else {
+                    term_2 = "+ \\frac\{" + fractionBNum_Simplified + "\}\{" + fractionBDenom_Simplified + "\}\\ln\{|x + " + b + "|\}";
+                };
+            };
+        };
+    };
+    const question = "Find the indefinite integral, \\(\\int\{\\frac\{" + formatted_mx_c + "\}\{" + formatted_polynomial_denom + "\}dx\}\\).";
+    const answer = "\\(" + term_1 + term_2 + " + c\\), \\(c \\in \\mathbb\{R\}\\)";
+    return [question, answer];
+};
+
 
 let currentAnswer = "";
 
@@ -575,6 +963,10 @@ function generateQuestion() {
         const firstOrderFunctions = [typeOneFirstOrderODE, typeTwoFirstOrderODE];
         const randomIndex = Math.floor(Math.random() * firstOrderFunctions.length);
         selectedQuestion = firstOrderFunctions[randomIndex]();
+    } else if (topic == "partialFractions") {
+        const partialFractionsFunctions = [partialFractionsOne, indefiniteIntegralPartialFractions];
+        const randomIndex = Math.floor(Math.random() * partialFractionsFunctions.length);
+        selectedQuestion = partialFractionsFunctions[randomIndex]();
     };
 
     // Update the HTML to display the new question
