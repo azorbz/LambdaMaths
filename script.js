@@ -941,6 +941,69 @@ function indefiniteIntegralPartialFractions() {
     return [question, answer];
 };
 
+// Linear Algebra
+
+function linearlyIndependent_three_d() {
+    const linearlyIndependent = [false, true][Math.floor(Math.random() * 2)];
+    var v_1;
+    var v_2;
+    var v_3;
+    var a_1;
+    var b_1;
+    var c_1;
+    var a_2;
+    var b_2;
+    var c_2;
+    var a_3;
+    var b_3;
+    var c_3;
+    var answer;
+    if (!linearlyIndependent) {
+        var alpha = Math.floor(Math.random() * 25 - 12);
+        var beta = Math.floor(Math.random() * 25 - 12);
+        var pass = false;
+        while (!pass) {
+            a_1 = Math.floor(Math.random() * 25 - 12);
+            b_1 = Math.floor(Math.random() * 25 - 12);
+            c_1 = Math.floor(Math.random() * 25 - 12);
+            a_2 = Math.floor(Math.random() * 25 - 12);
+            b_2 = Math.floor(Math.random() * 25 - 12);
+            c_2 = Math.floor(Math.random() * 25 - 12);
+            if (!(a_1 === 0 && b_1 === 0 && c_1 === 0) && !(a_2 === 0 && b_2 === 0 && c_2 === 0)) {
+                const lambda1 = a_2 / a_1;
+                const lambda2 = b_2 / b_1;
+                const lambda3 = c_2 / c_1;
+                if (!(lambda1 === lambda2 && lambda2 === lambda3)) {
+                    pass = true;
+                };
+            };
+        };
+        v_3 = [alpha * a_1 + beta * a_2, alpha * b_1 + beta * b_2, alpha * c_1 + beta * c_2];
+        answer = "No, the vectors are not linearly independent: \\(\\alpha = " + alpha + ", \\beta = " + beta + "\\)";
+    } else {
+        var pass = false;
+        while (!pass) {
+            a_1 = Math.floor(Math.random() * 25 - 12);
+            b_1 = Math.floor(Math.random() * 25 - 12);
+            c_1 = Math.floor(Math.random() * 25 - 12);
+            a_2 = Math.floor(Math.random() * 25 - 12);
+            b_2 = Math.floor(Math.random() * 25 - 12);
+            c_2 = Math.floor(Math.random() * 25 - 12);
+            a_3 = Math.floor(Math.random() * 25 - 12);
+            b_3 = Math.floor(Math.random() * 25 - 12);
+            c_3 = Math.floor(Math.random() * 25 - 12);
+            if (a_1 * (b_2 * c_3 - b_3 * c_2) - b_1 * (a_2 * c_3 - a_3 * c_2) + c_1 * (a_2 * b_3 - a_3 * b_2) == 0) {
+                pass = true;
+            };
+        };
+        v_3 = [a_3, b_3, c_3];
+        answer = "Yes, the vectors are linearly independent.";
+    };
+    const question = "Consider the vectors, \\(\\overrightarrow\{v_1\} = \\begin\{bmatrix\}" + a_1 + "\\\\ " + b_1 + "\\\\ " + c_1 + " \\end\{bmatrix\}, \\overrightarrow\{v_2\} = \\begin\{bmatrix\}" + a_2 + "\\\\ " + b_2 + "\\\\ " + c_2 + " \\end\{bmatrix\}, \\overrightarrow\{v_3\} = \\begin\{bmatrix\}" + v_3[0] + "\\\\ " + v_3[1] + "\\\\ " + v_3[2] + " \\end\{bmatrix\}\\). Determine whether or not the vectors are linearly independent. If they are not, express \\(\\overrightarrow\{v_3\}\\) in the form \\(\\alpha \\overrightarrow\{v_1\} + \\beta \\overrightarrow\{v_2\}\\).";
+    return [question, answer];
+};
+
+// WORKING
 
 let currentAnswer = "";
 
@@ -967,6 +1030,10 @@ function generateQuestion() {
         const partialFractionsFunctions = [partialFractionsOne, indefiniteIntegralPartialFractions];
         const randomIndex = Math.floor(Math.random() * partialFractionsFunctions.length);
         selectedQuestion = partialFractionsFunctions[randomIndex]();
+    } else if (topic == "linearAlgebra") {
+        const linearAlgebraFunctions = [linearlyIndependent_three_d];
+        const randomIndex = Math.floor(Math.random() * linearAlgebraFunctions.length);
+        selectedQuestion = linearAlgebraFunctions[randomIndex]();
     };
 
     // Update the HTML to display the new question
@@ -1030,4 +1097,4 @@ function downloadQuestionAsPDF() {
             });
         }, 500); // Small delay ensures MathJax is fully processed
     });
-}
+};
