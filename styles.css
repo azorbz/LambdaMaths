@@ -79,3 +79,11 @@ select {
     color: #6A1B9A;
     font-weight: bold;
 }
+
+.math-container {
+    overflow-x: auto; /* Enables horizontal scrolling if needed */
+    white-space: normal; /* Allows text wrapping */
+    text-align: center;
+    display: block; /* Ensures it's a block-level element */
+    max-width: 100%; /* Prevents overflow beyond screen width */
+}

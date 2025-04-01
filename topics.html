@@ -4,6 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Topics - Lambda Maths</title>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            options: {
+                enableMenu: false, // Removes the MathJax menu for better UX
+                renderActions: {
+                    addMenu: [0, '', '']
+                }
+            }
+        };
+    </script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
     <script type="text/javascript" async
             src="https://polyfill.io/v3/polyfill.min.js?features=es6">
     </script>
@@ -30,10 +47,11 @@
             <option value="tangents">Tangents</option>
         </select>
         <button class="btn" onclick="generateQuestion()">Generate Question</button>
-        <p id="questionOutput"></p>
-        <button class="btn" id="showAnswer" onclick="showAnswer()" style="display: none;">Show Answer</button>
-        <p id="answerOutput"></p>
-    </div>
+        <div class="math-container">
+            <p id="questionOutput"></p>
+            <button class="btn" id="showAnswer" onclick="showAnswer()" style="display: none;">Show Answer</button>
+            <p id="answerOutput"></p>
+        </div>
     <script src="script.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
