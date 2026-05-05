@@ -1003,6 +1003,20 @@ function linearlyIndependent_three_d() {
     return [question, answer];
 };
 
+function invert_three_by_three () {
+    const matrix_original = [Math.floor(Math.random() * 10) - 5, Math.floor(Math.random() * 10) - 5, Math.floor(Math.random() * 10) - 5, Math.floor(Math.random() * 10) - 5, Math.floor(Math.random() * 10) - 5, Math.floor(Math.random() * 10) - 5, Math.floor(Math.random() * 10) - 5, Math.floor(Math.random() * 10) - 5, Math.floor(Math.random() * 10) - 5];
+    const det_A  = matrix_original[0] * ((matrix_original[4] * matrix_original[8]) - (matrix_original[5] * matrix_original[7])) - matrix_original[1] * ((matrix_original[3] * matrix_original[8]) - (matrix_original[5] * matrix_original[6])) + matrix_original[2] * ((matrix_original[3] * matrix_original[7]) - (matrix_original[4] * matrix_original[6]));
+    var question;
+    var answer;
+    question = "Given A";
+    if (det_A == 0) {
+        answer = "The determinant is zero and thus the matrix is not invertible.";
+    } else {
+        answer = "\\(det(A) = " + det_A + "\\)";
+    };
+    return [question, answer];
+};
+
 // WORKING
 
 let currentAnswer = "";
@@ -1031,7 +1045,7 @@ function generateQuestion() {
         const randomIndex = Math.floor(Math.random() * partialFractionsFunctions.length);
         selectedQuestion = partialFractionsFunctions[randomIndex]();
     } else if (topic == "linearAlgebra") {
-        const linearAlgebraFunctions = [linearlyIndependent_three_d];
+        const linearAlgebraFunctions = [linearlyIndependent_three_d, invert_three_by_three];
         const randomIndex = Math.floor(Math.random() * linearAlgebraFunctions.length);
         selectedQuestion = linearAlgebraFunctions[randomIndex]();
     };
