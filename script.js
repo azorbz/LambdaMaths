@@ -1082,7 +1082,7 @@ function invert_three_by_three () {
     if (det_A == 0) {
         answer = "The determinant is zero and thus the matrix is not invertible.";
     } else {
-        answer = "\\(det(A) = " + det_A + "\\), " + invert_three_by_three_function(matrix_original) + ";
+        answer = "\\(det(A) = " + det_A + "\\), " + invert_three_by_three_function(matrix_original);
     };
     return [question, answer];
 };
