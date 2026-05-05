@@ -41,6 +41,76 @@ function euclidean_gcd(a, b) {
     };
 };
 
+function invert_three_by_three_function(matrix_original) {
+    const m = matrix_original;
+
+    // Determinant
+    const det =
+        m[0]*(m[4]*m[8] - m[5]*m[7]) -
+        m[1]*(m[3]*m[8] - m[5]*m[6]) +
+        m[2]*(m[3]*m[7] - m[4]*m[6]);
+
+    if (det === 0) {
+        return "The matrix is singular, so A^{-1} does not exist.";
+    }
+
+    // GCD function
+    function gcd(a, b) {
+        return b === 0 ? Math.abs(a) : gcd(b, a % b);
+    }
+
+    // Simplify fraction
+    function simplifyFraction(num, den) {
+        const g = gcd(num, den);
+        num /= g;
+        den /= g;
+
+        if (den < 0) {
+            num = -num;
+            den = -den;
+        }
+
+        return { num, den };
+    }
+    function fracToLatex(f) {
+        return f.den === 1 ? f.num.toString() : "\\frac{" + f.num + "}{" + f.den + "}";
+    }
+    const cof = [
+        (m[4]*m[8] - m[5]*m[7]),
+        -(m[3]*m[8] - m[5]*m[6]),
+        (m[3]*m[7] - m[4]*m[6]),
+
+        -(m[1]*m[8] - m[2]*m[7]),
+        (m[0]*m[8] - m[2]*m[6]),
+        -(m[0]*m[7] - m[1]*m[6]),
+
+        (m[1]*m[5] - m[2]*m[4]),
+        -(m[0]*m[5] - m[2]*m[3]),
+        (m[0]*m[4] - m[1]*m[3])
+    ];
+    const adj = [
+        cof[0], cof[3], cof[6],
+        cof[1], cof[4], cof[7],
+        cof[2], cof[5], cof[8]
+    ];
+    const fractions = adj.map(x => simplifyFraction(x, det));
+
+    const inverseMatrix =
+        "\\(A^{-1} = \\begin{bmatrix}" +
+        fracToLatex(fractions[0]) + " & " +
+        fracToLatex(fractions[1]) + " & " +
+        fracToLatex(fractions[2]) + " \\\\ " +
+        fracToLatex(fractions[3]) + " & " +
+        fracToLatex(fractions[4]) + " & " +
+        fracToLatex(fractions[5]) + " \\\\ " +
+        fracToLatex(fractions[6]) + " & " +
+        fracToLatex(fractions[7]) + " & " +
+        fracToLatex(fractions[8]) +
+        "\\end{bmatrix}\\)";
+
+    return inverseMatrix;
+}
+
 // Tangents
 
 function tangentToCircle() {
@@ -1012,7 +1082,7 @@ function invert_three_by_three () {
     if (det_A == 0) {
         answer = "The determinant is zero and thus the matrix is not invertible.";
     } else {
-        answer = "\\(det(A) = " + det_A + "\\)";
+        answer = "\\(det(A) = " + det_A + "\\), " + invert_three_by_three_function(matrix_original) + ";
     };
     return [question, answer];
 };
