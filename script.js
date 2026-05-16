@@ -1078,7 +1078,7 @@ function invert_three_by_three () {
     const det_A  = matrix_original[0] * ((matrix_original[4] * matrix_original[8]) - (matrix_original[5] * matrix_original[7])) - matrix_original[1] * ((matrix_original[3] * matrix_original[8]) - (matrix_original[5] * matrix_original[6])) + matrix_original[2] * ((matrix_original[3] * matrix_original[7]) - (matrix_original[4] * matrix_original[6]));
     var question;
     var answer;
-    question = "Consider the matrix: \\(A = \\begin\{bmatrix\}" + matrix_original[0] + " & " + matrix_original[1] + " & " + matrix_original[2] + " \\\\ " + matrix_original[3] + " & " + matrix_original[4] + " & " + matrix_original[5] + " \\\\ " + matrix_original[6] + " & " + matrix_original[7] + " & " + matrix_original[8] + " \\end\{bmatrix\}\\)";
+    question = "Consider the matrix: \\(A = \\begin\{bmatrix\}" + matrix_original[0] + " & " + matrix_original[1] + " & " + matrix_original[2] + " \\\\ " + matrix_original[3] + " & " + matrix_original[4] + " & " + matrix_original[5] + " \\\\ " + matrix_original[6] + " & " + matrix_original[7] + " & " + matrix_original[8] + " \\end\{bmatrix\}\\). Find the determinant of \\(A\\) and, if \\(A\\) is invertible, find \\(A^\{-1\}\\).";
     if (det_A == 0) {
         answer = "The determinant is zero and thus the matrix is not invertible.";
     } else {
